@@ -11,10 +11,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     await client.connect();
     const collectionOne = client.db("emaJhon").collection("product");
-
+    const collectionTwo = client.db("emaJhon").collection("moonTechProducts");
     console.log('connected to mongodb');
-
-
 
     try {
         // get the data from mongodb
@@ -23,6 +21,13 @@ async function run() {
         app.get('/product', async (req, res) => {
             const query = {};
             const cursor = collectionOne.find(query);
+            const results = await cursor.toArray();
+            console.log(results);
+            res.send(results);
+        });
+        app.get('/moonTechProducts', async (req, res) => {
+            const query = {};
+            const cursor = collectionTwo.find(query);
             const results = await cursor.toArray();
             console.log(results);
             res.send(results);
